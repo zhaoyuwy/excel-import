@@ -4,6 +4,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ExcelImport {
         List temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(xlsPath);
 //根据指定的文件输入流导入Excel从而产生Workbook对象
-        Workbook wb0 = new HSSFWorkbook(fileIn);
+        Workbook wb0 = new XSSFWorkbook(fileIn);
 //获取Excel文档中的第一个表单
         Sheet sht0 = wb0.getSheetAt(0);
 //对Sheet中的每一行进行迭代
@@ -48,7 +49,7 @@ public class ExcelImport {
     public static void main(String[] arg) {
         ExcelImport excelImport = new ExcelImport();
         try {
-            excelImport.loadScoreInfo("test.xls");
+            excelImport.loadScoreInfo("test.xlsx");
         } catch (IOException e) {
             e.printStackTrace();
         }
