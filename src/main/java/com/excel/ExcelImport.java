@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,11 @@ import java.util.List;
 public class ExcelImport {
     public List<String> loadScoreInfo(String xlsPath) throws IOException {
         List temp = new ArrayList();
+
         FileInputStream fileIn = new FileInputStream(xlsPath);
+        Workbook wb0 = createWorkbook(fileIn, xlsPath);
 //根据指定的文件输入流导入Excel从而产生Workbook对象
-        Workbook wb0 = new XSSFWorkbook(fileIn);
+//        Workbook wb0 = new XSSFWorkbook(fileIn);
 //获取Excel文档中的第一个表单
         Sheet sht0 = wb0.getSheetAt(0);
 //对Sheet中的每一行进行迭代
@@ -47,11 +50,22 @@ public class ExcelImport {
     }
 
     public static void main(String[] arg) {
+
         ExcelImport excelImport = new ExcelImport();
         try {
             excelImport.loadScoreInfo("test.xlsx");
+            excelImport.loadScoreInfo("test.xls");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Workbook createWorkbook(InputStream is, String excelFileName) throws IOException {
+        if (excelFileName.endsWith(".xls")) {
+            return new HSSFWorkbook(is);
+        } else if (excelFileName.endsWith(".xlsx")) {
+            return new XSSFWorkbook(is);
+        }
+        return null;
     }
 }
